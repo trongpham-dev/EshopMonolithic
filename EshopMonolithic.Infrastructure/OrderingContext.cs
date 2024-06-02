@@ -1,4 +1,5 @@
 ﻿using EshopMonolithic.Domain.AggregatesModel.BuyerAggregate;
+using EshopMonolithic.Domain.AggregatesModel.CatalogAggegrate;
 using EshopMonolithic.Domain.AggregatesModel.OrderAggregate;
 using EshopMonolithic.Domain.SeedWork;
 using EshopMonolithic.Infrastructure.EntityConfigurations;
@@ -21,6 +22,9 @@ namespace EshopMonolithic.Infrastructure
         public DbSet<PaymentMethod> Payments { get; set; }
         public DbSet<Buyer> Buyers { get; set; }
         public DbSet<CardType> CardTypes { get; set; }
+        public DbSet<CatalogItem> CatalogItems { get; set; }
+        public DbSet<CatalogBrand> CatalogBrands { get; set; }
+        public DbSet<CatalogType> CatalogTypes { get; set; }
 
         private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
@@ -42,6 +46,9 @@ namespace EshopMonolithic.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("ordering");
+            modelBuilder.ApplyConfiguration(new CatalogBrandEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new CatalogItemEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ClientRequestEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CardTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentMethodEntityTypeConfiguration());

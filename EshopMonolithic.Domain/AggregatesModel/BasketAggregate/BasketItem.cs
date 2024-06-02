@@ -1,33 +1,34 @@
 ﻿using EshopMonolithic.Domain.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EshopMonolithic.Domain.AggregatesModel.BasketAggregate
 {
-    public class BasketItem : IValidatableObject
+    public class BasketItem : Entity
     {
-        public string Id { get; set; }
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal OldUnitPrice { get; set; }
-        public int Quantity { get; set; }
-        public string PictureUrl { get; set; }
+        public int ProductId { get; private set; }
+        public string ProductName { get; private set; }
+        public decimal UnitPrice { get; private set; }
+        public decimal OldUnitPrice { get; private  set; }
+        public int Quantity { get; private set; }
+        public string PictureUrl { get; private set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public BasketItem(int productId, string productName, decimal unitPrice, decimal oldUnitPrice, int quantity, string pictureUrl)
         {
-            var results = new List<ValidationResult>();
+            ProductId = productId;
+            ProductName = productName;
+            UnitPrice = unitPrice;
+            OldUnitPrice = oldUnitPrice;
+            Quantity = quantity;
+            PictureUrl = pictureUrl;
+        }
 
-            if (Quantity < 1)
-            {
-                results.Add(new ValidationResult("Invalid number of units", new[] { "Quantity" }));
-            }
+        public void AddQuantity(int quantity)
+        {
+            Quantity += quantity;
+        }
 
-            return results;
+        public void SetQuantity(int quantity)
+        {
+            Quantity = quantity;
         }
     }
 }

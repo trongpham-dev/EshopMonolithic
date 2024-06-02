@@ -1,40 +1,39 @@
 ﻿using EshopMonolithic.Domain.Exceptions;
+using EshopMonolithic.Domain.SeedWork;
 using System.ComponentModel.DataAnnotations;
-using System.Numerics;
-using System.Text.Json.Serialization;
+
 
 namespace EshopMonolithic.Domain.AggregatesModel.CatalogAggegrate
 {
-    public class CatalogItem
+    public class CatalogItem : Entity, IAggregateRoot
     {
-        public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
-        public decimal Price { get; set; }
+        public decimal Price { get; private set; }
 
-        public string PictureFileName { get; set; }
+        public string PictureFileName { get; private set; }
 
-        public int CatalogTypeId { get; set; }
+        public int CatalogTypeId { get; private set; }
 
-        public CatalogType CatalogType { get; set; }
+        public CatalogType CatalogType { get; private set; }
 
-        public int CatalogBrandId { get; set; }
+        public int CatalogBrandId { get; private set; }
 
-        public CatalogBrand CatalogBrand { get; set; }
+        public CatalogBrand CatalogBrand { get; private set; }
 
         // Quantity in stock
-        public int AvailableStock { get; set; }
+        public int AvailableStock { get; private set; }
 
         // Available stock at which we should reorder
-        public int RestockThreshold { get; set; }
+        public int RestockThreshold { get; private set; }
 
 
         // Maximum number of units that can be in-stock at any time (due to physicial/logistical constraints in warehouses)
-        public int MaxStockThreshold { get; set; }
+        public int MaxStockThreshold { get; private set; }
 
         /// <summary>Optional embedding for the catalog item's description.</summary>
         //[JsonIgnore]
@@ -43,10 +42,23 @@ namespace EshopMonolithic.Domain.AggregatesModel.CatalogAggegrate
         /// <summary>
         /// True if item is on reorder
         /// </summary>
-        public bool OnReorder { get; set; }
+        public bool OnReorder { get; private set; }
 
         public CatalogItem() { }
 
+        public CatalogItem(int id, string name, string description, decimal price, string pictureFileName, int catalogTypeId,int catalogBrandId, int availableStock, int restockThreshold, int maxStockThreshold)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            Price = price;
+            PictureFileName = pictureFileName;
+            CatalogTypeId = catalogTypeId;
+            CatalogBrandId = catalogBrandId;
+            AvailableStock = availableStock;
+            RestockThreshold = restockThreshold;
+            MaxStockThreshold = maxStockThreshold;
+        }
 
         /// <summary>
         /// Decrements the quantity of a particular item in inventory and ensures the restockThreshold hasn't

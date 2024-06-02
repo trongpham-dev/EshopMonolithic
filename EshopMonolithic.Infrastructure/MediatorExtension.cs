@@ -1,4 +1,5 @@
-﻿using EshopMonolithic.Domain.SeedWork;
+﻿using EshopMonolithic.Domain.AggregatesModel.CatalogAggegrate;
+using EshopMonolithic.Domain.SeedWork;
 using MediatR;
 
 namespace EshopMonolithic.Infrastructure
